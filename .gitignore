@@ -1,0 +1,15 @@
+# Fichier de configuration sensible (ne jamais versionner)
+includes/config.php
+
+# Logs
+*.log
+logs/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Editeurs
+.vscode/
+.idea/
+*.swp

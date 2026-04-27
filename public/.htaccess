@@ -1,0 +1,23 @@
+# Masquer les erreurs PHP en production (changer en développement)
+# php_flag display_errors Off
+
+# Forcer HTTPS
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Interdire l'accès aux fichiers cachés (.git, .env, etc.)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Interdire la liste des fichiers dans les dossiers
+Options -Indexes
+
+# Sécuriser les en-têtes HTTP
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
