@@ -3,6 +3,8 @@
 > Projet Fil Rouge CPI 2025–2026  
 > **Développeur Back-End** : Omar Akakba | **Développeur Front-End** : Elyes Jaffel
 
+**Site en production :** [omar05.alwaysdata.net/cyna](https://omar05.alwaysdata.net/cyna/)
+
 Plateforme e-commerce B2B de vente de solutions de cybersécurité (EDR, SOC Managé, VPN).  
 Développée en PHP natif sans framework, avec MySQL 8, Stripe et une architecture orientée sécurité (OWASP Top 10 + RGPD).
 
