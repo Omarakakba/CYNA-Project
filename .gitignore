@@ -1,5 +1,9 @@
-# Fichier de configuration sensible (ne jamais versionner)
+# Fichiers de configuration sensibles (ne jamais versionner)
+.env
 includes/config.php
+
+# Dépendances (recréées avec : composer install)
+vendor/
 
 # Logs
 *.log

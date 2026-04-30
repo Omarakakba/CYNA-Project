@@ -1,0 +1,221 @@
+{
+  "info": {
+    "name": "CYNA API — Collection complète",
+    "_postman_id": "cyna-api-2025",
+    "description": "Collection Postman pour l'API REST du projet CYNA.\n\n**Variable à configurer** : `base_url` → par défaut `http://localhost/cyna/api`\n\nEndpoints publics : produits, catégories.\nEndpoint authentifié : commandes (HTTP Basic Auth).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8888/cyna/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Produits",
+      "item": [
+        {
+          "name": "Lister tous les produits",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products.php",
+              "host": ["{{base_url}}"],
+              "path": ["products.php"]
+            },
+            "description": "Retourne la liste complète des produits disponibles avec leur catégorie.\n\n**Réponse 200** :\n```json\n{\n  \"count\": 6,\n  \"data\": [ { \"id\": 1, \"name\": \"...\", \"price\": 9.99, ... } ]\n}\n```"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtenir un produit par ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products.php?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["products.php"],
+              "query": [
+                { "key": "id", "value": "1", "description": "ID du produit" }
+              ]
+            },
+            "description": "Retourne le détail complet d'un produit (inclut la description longue).\n\n**Réponse 404** si le produit n'existe pas :\n```json\n{ \"error\": \"Produit introuvable\", \"code\": 404 }\n```"
+          },
+          "response": []
+        },
+        {
+          "name": "Filtrer par catégorie",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products.php?category_id=1",
+              "host": ["{{base_url}}"],
+              "path": ["products.php"],
+              "query": [
+                { "key": "category_id", "value": "1", "description": "ID de la catégorie" }
+              ]
+            },
+            "description": "Retourne uniquement les produits appartenant à la catégorie spécifiée."
+          },
+          "response": []
+        },
+        {
+          "name": "Rechercher un produit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products.php?search=edr",
+              "host": ["{{base_url}}"],
+              "path": ["products.php"],
+              "query": [
+                { "key": "search", "value": "edr", "description": "Mot-clé recherché dans nom et description" }
+              ]
+            },
+            "description": "Recherche full-text dans le nom et la description des produits."
+          },
+          "response": []
+        },
+        {
+          "name": "Produit inexistant (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products.php?id=9999",
+              "host": ["{{base_url}}"],
+              "path": ["products.php"],
+              "query": [
+                { "key": "id", "value": "9999" }
+              ]
+            },
+            "description": "Démontre la gestion d'erreur 404 quand le produit n'existe pas."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Catégories",
+      "item": [
+        {
+          "name": "Lister toutes les catégories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories.php",
+              "host": ["{{base_url}}"],
+              "path": ["categories.php"]
+            },
+            "description": "Retourne toutes les catégories avec le nombre de produits associés.\n\n**Réponse 200** :\n```json\n{\n  \"count\": 3,\n  \"data\": [ { \"id\": 1, \"name\": \"EDR\", \"nb_products\": 2, ... } ]\n}\n```"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtenir une catégorie avec ses produits",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories.php?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["categories.php"],
+              "query": [
+                { "key": "id", "value": "1", "description": "ID de la catégorie" }
+              ]
+            },
+            "description": "Retourne une catégorie et la liste de tous ses produits disponibles."
+          },
+          "response": []
+        },
+        {
+          "name": "Catégorie inexistante (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories.php?id=9999",
+              "host": ["{{base_url}}"],
+              "path": ["categories.php"],
+              "query": [
+                { "key": "id", "value": "9999" }
+              ]
+            },
+            "description": "Démontre la gestion d'erreur 404 quand la catégorie n'existe pas."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Commandes (authentifié)",
+      "item": [
+        {
+          "name": "Lister mes commandes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{email}}", "type": "string" },
+                { "key": "password", "value": "{{password}}", "type": "string" }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/orders.php",
+              "host": ["{{base_url}}"],
+              "path": ["orders.php"]
+            },
+            "description": "Retourne les commandes de l'utilisateur authentifié.\n\n**Authentification** : HTTP Basic Auth\n- Username : email du compte\n- Password : mot de passe en clair\n\nConfigure les variables `email` et `password` dans l'environnement Postman.\n\n**Réponse 401** si les identifiants sont invalides."
+          },
+          "response": []
+        },
+        {
+          "name": "Détail d'une commande",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "{{email}}", "type": "string" },
+                { "key": "password", "value": "{{password}}", "type": "string" }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/orders.php?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["orders.php"],
+              "query": [
+                { "key": "id", "value": "1", "description": "ID de la commande" }
+              ]
+            },
+            "description": "Retourne le détail d'une commande (lignes, prix, durée, référence Stripe).\n\nSeules les commandes appartenant à l'utilisateur connecté sont accessibles."
+          },
+          "response": []
+        },
+        {
+          "name": "Sans authentification (401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders.php",
+              "host": ["{{base_url}}"],
+              "path": ["orders.php"]
+            },
+            "description": "Démontre la protection de l'endpoint : sans header Authorization, l'API retourne 401 Unauthorized."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
