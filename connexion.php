@@ -30,7 +30,10 @@ if (!$error && $_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($email) || empty($password)) {
             $error = 'Veuillez remplir tous les champs.';
         } elseif (login($email, $password, isset($_POST['remember']))) {
-            clearRateLimit('login'); // succès → on réinitialise le compteur
+            clearRateLimit('login');
+            if ($_SESSION['user_role'] === 'admin' && $redirect === '/cyna/espace-client.php') {
+                header('Location: /cyna/admin/'); exit;
+            }
             header('Location: ' . safeRedirect($redirect)); exit;
         } else {
             $error = 'Email ou mot de passe incorrect.';
