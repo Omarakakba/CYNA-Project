@@ -1,180 +1,169 @@
-<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
   <root>
     <mxCell id="0" />
     <mxCell id="1" parent="0" />
 
-    <!-- ===== TITRE ===== -->
-    <mxCell id="title" value="Architecture CYNA — Plateforme SaaS Cybersécurité" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#060c1b;" vertex="1" parent="1">
-      <mxGeometry x="300" y="30" width="900" height="40" as="geometry" />
+    <!-- TITRE -->
+    <mxCell id="2" value="Architecture CYNA — Plateforme SaaS Cybersécurité" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#060c1b;" vertex="1" parent="1">
+      <mxGeometry x="100" y="20" width="970" height="40" as="geometry" />
     </mxCell>
 
-    <!-- ===== ZONE : CLIENT ===== -->
-    <mxCell id="zone_client" value="Client" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontStyle=1;fontSize=11;" vertex="1" parent="1">
-      <mxGeometry x="60" y="120" width="160" height="130" as="geometry" />
+    <!-- FOND ZONE SERVEUR MAMP -->
+    <mxCell id="3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9e6;strokeColor=#d6b656;opacity=40;" vertex="1" parent="1">
+      <mxGeometry x="220" y="75" width="810" height="600" as="geometry" />
     </mxCell>
-    <mxCell id="browser" value="&lt;b&gt;Navigateur Web&lt;/b&gt;&#xa;HTML / CSS / JS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="zone_client">
-      <mxGeometry x="15" y="40" width="130" height="60" as="geometry" />
-    </mxCell>
-
-    <!-- ===== ZONE : SERVEUR LOCAL (MAMP) ===== -->
-    <mxCell id="zone_server" value="Serveur local — MAMP (macOS)" style="swimlane;startSize=25;fillColor=#fff9e6;strokeColor=#d6b656;fontColor=#333333;fontStyle=1;fontSize=11;" vertex="1" parent="1">
-      <mxGeometry x="300" y="80" width="760" height="500" as="geometry" />
+    <mxCell id="4" value="Serveur local — MAMP (macOS)" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#d6b656;align=left;" vertex="1" parent="1">
+      <mxGeometry x="230" y="82" width="280" height="20" as="geometry" />
     </mxCell>
 
-    <!-- Apache -->
-    <mxCell id="apache" value="&lt;b&gt;Apache 2.4&lt;/b&gt;&#xa;Port 8888" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="zone_server">
-      <mxGeometry x="280" y="40" width="160" height="55" as="geometry" />
+    <!-- FOND ZONE SERVICES EXTERNES -->
+    <mxCell id="5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;opacity=40;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="75" width="250" height="600" as="geometry" />
+    </mxCell>
+    <mxCell id="6" value="Services externes" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#666666;align=left;" vertex="1" parent="1">
+      <mxGeometry x="1070" y="82" width="200" height="20" as="geometry" />
     </mxCell>
 
-    <!-- PHP Application box -->
-    <mxCell id="zone_php" value="Application PHP 8.2" style="swimlane;startSize=25;fillColor=#f0f4ff;strokeColor=#6c8ebf;fontColor=#1a1a6e;fontStyle=1;fontSize=11;" vertex="1" parent="zone_server">
-      <mxGeometry x="60" y="130" width="620" height="210" as="geometry" />
+    <!-- NAVIGATEUR -->
+    <mxCell id="10" value="&lt;b&gt;Navigateur Web&lt;/b&gt;&lt;br&gt;HTML / CSS / JS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="50" y="200" width="150" height="60" as="geometry" />
     </mxCell>
 
-    <!-- Pages publiques -->
-    <mxCell id="pages_public" value="&lt;b&gt;Pages publiques&lt;/b&gt;&#xa;index.php · catalogue.php&#xa;produit.php · connexion.php&#xa;inscription.php · contact.php" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="zone_php">
-      <mxGeometry x="20" y="35" width="175" height="90" as="geometry" />
+    <!-- APACHE -->
+    <mxCell id="11" value="&lt;b&gt;Apache 2.4&lt;/b&gt;&lt;br&gt;Port 8888" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="430" y="200" width="140" height="60" as="geometry" />
     </mxCell>
 
-    <!-- Pages client -->
-    <mxCell id="pages_client" value="&lt;b&gt;Espace client&lt;/b&gt;&#xa;panier.php · commande.php&#xa;succes.php · espace-client.php&#xa;export-donnees.php · profil.php" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="zone_php">
-      <mxGeometry x="215" y="35" width="175" height="90" as="geometry" />
+    <!-- FOND PHP APPLICATION -->
+    <mxCell id="12" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8eeff;strokeColor=#6c8ebf;opacity=60;" vertex="1" parent="1">
+      <mxGeometry x="235" y="310" width="760" height="240" as="geometry" />
+    </mxCell>
+    <mxCell id="13" value="Application PHP 8.2" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#1a1a6e;align=left;" vertex="1" parent="1">
+      <mxGeometry x="245" y="318" width="220" height="20" as="geometry" />
     </mxCell>
 
-    <!-- Pages admin -->
-    <mxCell id="pages_admin" value="&lt;b&gt;Administration&lt;/b&gt;&#xa;admin/index.php&#xa;produits · commandes&#xa;utilisateurs · messages" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="zone_php">
-      <mxGeometry x="410" y="35" width="175" height="90" as="geometry" />
+    <!-- PAGES PUBLIQUES -->
+    <mxCell id="14" value="&lt;b&gt;Pages publiques&lt;/b&gt;&lt;br&gt;index.php&lt;br&gt;catalogue.php&lt;br&gt;produit.php&lt;br&gt;connexion.php&lt;br&gt;inscription.php" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="250" y="340" width="165" height="105" as="geometry" />
     </mxCell>
 
-    <!-- Includes layer -->
-    <mxCell id="includes" value="&lt;b&gt;includes/ (non accessible depuis le web)&lt;/b&gt;&#xa;config.php (PDO)   ·   auth.php (sessions, RBAC)   ·   security.php (CSRF, XSS, rate limiting)   ·   mail.php (PHPMailer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="zone_php">
-      <mxGeometry x="20" y="148" width="565" height="45" as="geometry" />
+    <!-- ESPACE CLIENT -->
+    <mxCell id="15" value="&lt;b&gt;Espace client&lt;/b&gt;&lt;br&gt;panier.php&lt;br&gt;commande.php&lt;br&gt;succes.php&lt;br&gt;espace-client.php&lt;br&gt;export-donnees.php" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="435" y="340" width="165" height="105" as="geometry" />
     </mxCell>
 
-    <!-- Webhook -->
-    <mxCell id="webhook" value="&lt;b&gt;webhook.php&lt;/b&gt;&#xa;Vérification HMAC-SHA256" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="zone_server">
-      <mxGeometry x="490" y="375" width="175" height="55" as="geometry" />
+    <!-- ADMINISTRATION -->
+    <mxCell id="16" value="&lt;b&gt;Administration&lt;/b&gt;&lt;br&gt;admin/index.php&lt;br&gt;produits.php&lt;br&gt;commandes.php&lt;br&gt;utilisateurs.php&lt;br&gt;messages.php" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="620" y="340" width="165" height="105" as="geometry" />
     </mxCell>
 
-    <!-- MySQL -->
-    <mxCell id="mysql" value="&lt;b&gt;MySQL 8.0&lt;/b&gt;&#xa;Port 8889&#xa;&#xa;user · category · product&#xa;order · order_item · payment&#xa;address · contact_message&#xa;rate_limit · slide" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="zone_server">
-      <mxGeometry x="60" y="375" width="160" height="110" as="geometry" />
+    <!-- INCLUDES -->
+    <mxCell id="17" value="&lt;b&gt;includes/ — non accessible depuis le web (.htaccess)&lt;/b&gt;&lt;br&gt;config.php (PDO)   ·   auth.php (sessions, RBAC)   ·   security.php (CSRF, XSS, rate limiting)   ·   mail.php (PHPMailer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="250" y="463" width="545" height="70" as="geometry" />
     </mxCell>
 
-    <!-- PDO label -->
-    <mxCell id="pdo_label" value="PDO" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1;fontColor=#82b366;" vertex="1" connectable="0" parent="1">
-      <mxGeometry x="420" y="600" relative="1" as="geometry" />
+    <!-- MYSQL -->
+    <mxCell id="18" value="&lt;b&gt;MySQL 8.0&lt;/b&gt;&lt;br&gt;Port 8889&lt;br&gt;&lt;br&gt;user · category · product&lt;br&gt;order · order_item · payment&lt;br&gt;address · contact_message&lt;br&gt;rate_limit · slide" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="250" y="570" width="160" height="130" as="geometry" />
     </mxCell>
 
-    <!-- ===== ZONE : SERVICES EXTERNES ===== -->
-    <mxCell id="zone_ext" value="Services externes" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontStyle=1;fontSize=11;" vertex="1" parent="1">
-      <mxGeometry x="1130" y="80" width="440" height="500" as="geometry" />
+    <!-- WEBHOOK -->
+    <mxCell id="19" value="&lt;b&gt;webhook.php&lt;/b&gt;&lt;br&gt;Vérification signature&lt;br&gt;HMAC-SHA256 (Stripe)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="665" y="580" width="170" height="65" as="geometry" />
     </mxCell>
 
-    <!-- Stripe -->
-    <mxCell id="stripe" value="&lt;b&gt;Stripe API&lt;/b&gt;&#xa;Checkout · Payment Intent&#xa;Signature webhook HMAC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#635bff;strokeColor=#4b44cc;fontColor=#ffffff;fontSize=11;" vertex="1" parent="zone_ext">
-      <mxGeometry x="30" y="60" width="175" height="80" as="geometry" />
+    <!-- STRIPE API -->
+    <mxCell id="20" value="&lt;b&gt;Stripe API&lt;/b&gt;&lt;br&gt;Checkout&lt;br&gt;Payment Intent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#635bff;strokeColor=#4b44cc;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="1080" y="140" width="180" height="75" as="geometry" />
     </mxCell>
 
-    <!-- Gmail SMTP -->
-    <mxCell id="gmail" value="&lt;b&gt;Gmail SMTP&lt;/b&gt;&#xa;Port 587 (STARTTLS)&#xa;PHPMailer 6.9" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ea4335;strokeColor=#c0392b;fontColor=#ffffff;fontSize=11;" vertex="1" parent="zone_ext">
-      <mxGeometry x="245" y="60" width="165" height="80" as="geometry" />
+    <!-- STRIPE HOSTED PAGE -->
+    <mxCell id="21" value="&lt;b&gt;Page paiement Stripe&lt;/b&gt;&lt;br&gt;(hébergée par Stripe)&lt;br&gt;Aucune donnée carte&lt;br&gt;côté serveur" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9b8ef5;strokeColor=#4b44cc;fontColor=#ffffff;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1080" y="265" width="180" height="85" as="geometry" />
     </mxCell>
 
-    <!-- GitHub -->
-    <mxCell id="github" value="&lt;b&gt;GitHub&lt;/b&gt;&#xa;CYNA-Project&#xa;Versioning Git" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#24292e;strokeColor=#000000;fontColor=#ffffff;fontSize=11;" vertex="1" parent="zone_ext">
-      <mxGeometry x="140" y="200" width="160" height="70" as="geometry" />
+    <!-- GMAIL SMTP -->
+    <mxCell id="22" value="&lt;b&gt;Gmail SMTP&lt;/b&gt;&lt;br&gt;Port 587 — STARTTLS&lt;br&gt;PHPMailer 6.9" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ea4335;strokeColor=#c0392b;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="1080" y="400" width="180" height="75" as="geometry" />
     </mxCell>
 
-    <!-- Navigateur Stripe hosted page -->
-    <mxCell id="stripe_page" value="&lt;b&gt;Page de paiement Stripe&lt;/b&gt;&#xa;(hébergée par Stripe)&#xa;Aucune donnée carte côté serveur" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#635bff;strokeColor=#4b44cc;fontColor=#ffffff;fontSize=10;" vertex="1" parent="zone_ext">
-      <mxGeometry x="30" y="350" width="175" height="70" as="geometry" />
+    <!-- GITHUB -->
+    <mxCell id="23" value="&lt;b&gt;GitHub&lt;/b&gt;&lt;br&gt;CYNA-Project&lt;br&gt;Versioning Git" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#24292e;strokeColor=#000000;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="1080" y="530" width="180" height="70" as="geometry" />
     </mxCell>
 
-    <!-- ===== LÉGENDE ===== -->
-    <mxCell id="legend" value="&lt;b&gt;Légende&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontStyle=1;fontSize=11;" vertex="1" parent="1">
-      <mxGeometry x="60" y="660" width="400" height="150" as="geometry" />
+    <!-- LEGENDE -->
+    <mxCell id="30" value="&lt;b&gt;Légende&lt;/b&gt;" style="text;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="50" y="530" width="150" height="25" as="geometry" />
     </mxCell>
-    <mxCell id="leg1" value="" style="fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="legend">
-      <mxGeometry x="20" y="35" width="30" height="20" as="geometry" />
+    <mxCell id="31" value="Pages publiques" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="50" y="560" width="150" height="28" as="geometry" />
     </mxCell>
-    <mxCell id="leg1t" value="Pages publiques" style="text;html=1;fontSize=10;" vertex="1" parent="legend">
-      <mxGeometry x="55" y="35" width="120" height="20" as="geometry" />
+    <mxCell id="32" value="Espace client (connecté)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="50" y="598" width="150" height="28" as="geometry" />
     </mxCell>
-    <mxCell id="leg2" value="" style="fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="legend">
-      <mxGeometry x="20" y="65" width="30" height="20" as="geometry" />
+    <mxCell id="33" value="Administration (role=admin)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="50" y="636" width="150" height="28" as="geometry" />
     </mxCell>
-    <mxCell id="leg2t" value="Espace client (authentifié)" style="text;html=1;fontSize=10;" vertex="1" parent="legend">
-      <mxGeometry x="55" y="65" width="150" height="20" as="geometry" />
-    </mxCell>
-    <mxCell id="leg3" value="" style="fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="legend">
-      <mxGeometry x="20" y="95" width="30" height="20" as="geometry" />
-    </mxCell>
-    <mxCell id="leg3t" value="Administration (role=admin)" style="text;html=1;fontSize=10;" vertex="1" parent="legend">
-      <mxGeometry x="55" y="95" width="160" height="20" as="geometry" />
-    </mxCell>
-    <mxCell id="leg4" value="" style="fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="legend">
-      <mxGeometry x="210" y="35" width="30" height="20" as="geometry" />
-    </mxCell>
-    <mxCell id="leg4t" value="Couche sécurité (includes/)" style="text;html=1;fontSize=10;" vertex="1" parent="legend">
-      <mxGeometry x="245" y="35" width="140" height="20" as="geometry" />
-    </mxCell>
-    <mxCell id="leg5" value="" style="fillColor=#d5e8d4;strokeColor=#82b366;shape=cylinder3;size=5;" vertex="1" parent="legend">
-      <mxGeometry x="210" y="65" width="30" height="20" as="geometry" />
-    </mxCell>
-    <mxCell id="leg5t" value="Base de données MySQL" style="text;html=1;fontSize=10;" vertex="1" parent="legend">
-      <mxGeometry x="245" y="65" width="140" height="20" as="geometry" />
+    <mxCell id="34" value="Sécurité / includes/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="50" y="674" width="150" height="28" as="geometry" />
     </mxCell>
 
-    <!-- ===== FLÈCHES ===== -->
+    <!-- FLECHES -->
 
     <!-- Browser → Apache -->
-    <mxCell id="e1" value="HTTP/HTTPS" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="browser" target="apache" parent="1">
+    <mxCell id="40" value="HTTP/HTTPS" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;" edge="1" source="10" target="11" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- Apache → PHP App -->
-    <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="apache" target="zone_php" parent="zone_server">
+    <!-- Apache → Pages publiques -->
+    <mxCell id="41" value="Routing" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="11" target="14" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- PHP App → MySQL (PDO) -->
-    <mxCell id="e3" value="PDO" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#82b366;" edge="1" source="zone_php" target="mysql" parent="zone_server">
+    <!-- Pages → Includes -->
+    <mxCell id="42" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="14" target="17" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="43" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="15" target="17" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="44" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="16" target="17" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- PHP App → Stripe (SDK) -->
-    <mxCell id="e4" value="Stripe PHP SDK" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#635bff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="zone_php" target="stripe" parent="1">
+    <!-- Includes → MySQL (PDO) -->
+    <mxCell id="45" value="PDO" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#82b366;" edge="1" source="17" target="18" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- PHP App → Gmail (PHPMailer) -->
-    <mxCell id="e5" value="PHPMailer&#xa;STARTTLS" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#ea4335;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="includes" target="gmail" parent="1">
+    <!-- Espace client → Stripe SDK -->
+    <mxCell id="46" value="Stripe PHP SDK" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#635bff;" edge="1" source="15" target="20" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- Stripe → Stripe hosted page → Browser -->
-    <mxCell id="e6" value="Redirection" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;dashed=1;" edge="1" source="stripe" target="stripe_page" parent="zone_ext">
+    <!-- Stripe → Page paiement hébergée -->
+    <mxCell id="47" value="Redirection" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;dashed=1;" edge="1" source="20" target="21" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- Stripe → Webhook -->
-    <mxCell id="e7" value="Webhook signé&#xa;HMAC-SHA256" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#b85450;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="stripe" target="webhook" parent="1">
+    <!-- Page Stripe → Browser (retour confirmation) -->
+    <mxCell id="48" value="Retour succes.php" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="21" target="10" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- Webhook → MySQL (update statut) -->
-    <mxCell id="e8" value="UPDATE order&#xa;status='paid'" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;dashed=1;fontColor=#82b366;" edge="1" source="webhook" target="mysql" parent="zone_server">
+    <!-- Stripe → Webhook (HMAC) -->
+    <mxCell id="49" value="Webhook&lt;br&gt;HMAC-SHA256" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#b85450;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="20" target="19" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- Browser → Stripe hosted page (retour confirmation) -->
-    <mxCell id="e9" value="Retour succes.php" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;dashed=1;" edge="1" source="stripe_page" target="browser" parent="1">
+    <!-- Webhook → MySQL -->
+    <mxCell id="50" value="UPDATE order&lt;br&gt;status='paid'" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;dashed=1;fontColor=#82b366;" edge="1" source="19" target="18" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
-    <!-- Includes → MySQL -->
-    <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="includes" target="mysql" parent="zone_server">
+    <!-- Includes → Gmail (PHPMailer) -->
+    <mxCell id="51" value="STARTTLS / Port 587" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;fontStyle=1;fontColor=#ea4335;" edge="1" source="17" target="22" parent="1">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
