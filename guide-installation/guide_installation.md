@@ -1,8 +1,8 @@
 # Guide d'installation — Projet CYNA Security Platform
 
 **Auteur : Omar Akakba**  
-**Version : 1.2**  
-**Date : Avril 2026**
+**Version : 1.3**  
+**Date : Mai 2026**
 
 ---
 
@@ -26,6 +26,7 @@ La plateforme CYNA permet :
 | Serveur web | Apache (via MAMP) | 2.4 |
 | Paiement | Stripe Checkout + Webhooks | SDK PHP 15 |
 | E-mail | PHPMailer + Gmail SMTP | 6.9 |
+| Monitoring | Prometheus + Grafana | 3.11 / 13.0 |
 | Dépendances | Composer | 2.x |
 
 ---
@@ -43,6 +44,7 @@ La plateforme CYNA permet :
 - MAMP (inclut Apache 2.4 + PHP 8.2 + MySQL 8.0)
 - Composer 2.x
 - Git 2.x
+- Homebrew (pour Prometheus et Grafana)
 
 **Vérification :**
 
@@ -51,6 +53,7 @@ php -v
 composer --version
 git --version
 mysql --version
+brew --version
 ```
 
 **Comptes externes requis :**
@@ -111,6 +114,7 @@ Dépendances installées :
 
 - `stripe/stripe-php` — SDK officiel Stripe
 - `phpmailer/phpmailer` — Envoi d'e-mails SMTP
+- `promphp/prometheus_client_php` — Exposition des métriques Prometheus
 
 ---
 
@@ -205,7 +209,82 @@ Si tu veux un domaine local personnalisé, éditer `/etc/hosts` :
 
 ---
 
-## 8. Configuration Stripe
+## 8. Installation du monitoring (Prometheus + Grafana)
+
+### 8.1 Installer Prometheus et Grafana
+
+```bash
+brew install prometheus grafana
+```
+
+### 8.2 Configurer Prometheus pour scraper CYNA
+
+Éditer `/opt/homebrew/etc/prometheus.yml` et ajouter :
+
+```yaml
+scrape_configs:
+  - job_name: "cyna"
+    scrape_interval: 30s
+    metrics_path: "/cyna/metrics.php"
+    static_configs:
+    - targets: ["localhost:8888"]
+```
+
+### 8.3 Configurer Grafana (port 3001)
+
+Dans `/opt/homebrew/etc/grafana/grafana.ini`, section `[smtp]` :
+
+```ini
+enabled = true
+host = smtp.gmail.com:587
+user = votre@gmail.com
+password = """xxxx xxxx xxxx xxxx"""
+from_address = votre@gmail.com
+from_name = CYNA Monitoring
+startTLS_policy = StarttlsMandatory
+```
+
+Changer le port par défaut (si le port 3000 est occupé) :
+
+```ini
+http_port = 3001
+```
+
+### 8.4 Démarrer les services
+
+```bash
+brew services start prometheus
+brew services start grafana
+```
+
+Vérification :
+
+```bash
+curl http://localhost:9090/-/ready   # Attendu : Prometheus Server is Ready.
+curl -o /dev/null -w "%{http_code}" http://localhost:3001/api/health  # Attendu : 200
+```
+
+### 8.5 Configurer Grafana (interface)
+
+1. Ouvrir **http://localhost:3001** — login : `admin` / `admin`
+2. Ajouter la source de données Prometheus :
+   - **Connections → Data sources → Add data source**
+   - Type : `Prometheus`, URL : `http://localhost:9090`
+3. Importer le dashboard :
+   - **Dashboards → Import → Upload JSON**
+   - Fichier : `monitoring/grafana-dashboard.json`
+
+### 8.6 Alertes configurées
+
+| Alerte | Condition | Sévérité |
+|---|---|---|
+| Brute-force détecté | ≥ 5 tentatives connexion / 5 min | Critical |
+| Commandes bloquées | > 5 commandes pending depuis 10 min | Warning |
+| Messages non lus | > 10 messages de contact non lus | Warning |
+
+---
+
+## 9. Configuration Stripe
 
 1. Créer un compte sur [dashboard.stripe.com](https://dashboard.stripe.com)
 2. Passer en **mode test**
@@ -216,7 +295,7 @@ Si tu veux un domaine local personnalisé, éditer `/etc/hosts` :
 
 ---
 
-## 9. Validation
+## 10. Validation
 
 ### Test navigateur
 
@@ -247,7 +326,21 @@ Utiliser la carte test : `4242 4242 4242 4242` — date future — CVV : `123`
 
 ---
 
-## 10. Gestion des conflits de version
+### Test monitoring
+
+```bash
+# Métriques CYNA
+curl http://localhost:8888/cyna/metrics.php
+# Attendu : lignes au format # HELP cyna_users_total ...
+
+# Targets Prometheus
+curl http://localhost:9090/api/v1/targets
+# Attendu : "health":"up" pour le job "cyna"
+```
+
+---
+
+## 11. Gestion des conflits de version
 
 **Problème : dépendances PHP incompatibles**
 
@@ -263,7 +356,7 @@ Utiliser `composer.lock` pour garantir la stabilité des versions entre dévelop
 
 ---
 
-## 11. Dépannage
+## 12. Dépannage
 
 | Problème | Solution |
 |---------|---------|
@@ -272,6 +365,9 @@ Utiliser `composer.lock` pour garantir la stabilité des versions entre dévelop
 | Erreur 404 sur sous-pages | Vérifier la présence du `.htaccess` et `AllowOverride All` |
 | E-mail non envoyé | Vérifier le mot de passe d'application Gmail (pas le mot de passe principal) |
 | Webhook Stripe non reçu | Utiliser Stripe CLI pour tester en local |
+| Prometheus ne scrape pas CYNA | Vérifier que MAMP est démarré et que `/cyna/metrics.php` répond |
+| Grafana port 3000 occupé | Changer `http_port = 3001` dans `grafana.ini` et redémarrer |
+| Alertes Grafana non reçues | Vérifier les identifiants SMTP dans `grafana.ini` (mot de passe d'application Gmail) |
 
 **Logs :**
 
@@ -281,4 +377,10 @@ tail -f /Applications/MAMP/logs/php_error.log
 
 # Accès Apache
 tail -f /Applications/MAMP/logs/apache_access.log
+
+# Prometheus
+tail -f /opt/homebrew/var/log/prometheus.log
+
+# Grafana
+tail -f /opt/homebrew/var/log/grafana/grafana.log
 ```

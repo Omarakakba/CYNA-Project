@@ -1,8 +1,8 @@
 # Document d'Architecture Technique — Projet CYNA
 
 **Formation** : CPI 2025–2026 — Bachelor Développeur Full Stack  
-**Version** : 2.0  
-**Date** : Avril 2026
+**Version** : 2.1  
+**Date** : Mai 2026
 
 ---
 
@@ -27,6 +27,7 @@ CYNA est une plateforme e-commerce B2B permettant à des entreprises d'acheter d
 | Paiement | Stripe Checkout + Webhooks | SDK PHP 15 | Omar Akakba |
 | E-mail | PHPMailer + Gmail SMTP | 6.9 | Omar Akakba |
 | Versioning | Git / GitHub | — | Équipe |
+| Monitoring | Prometheus + Grafana | 3.11 / 13.0 | Omar Akakba |
 
 **Choix assumé** : aucun framework PHP n'a été utilisé. PHP natif avec PDO permet une maîtrise totale du code, une compréhension approfondie des mécanismes de sécurité, et répond entièrement aux besoins du projet.
 
@@ -135,7 +136,7 @@ requireAdmin();   // Redirige vers /espace-client.php si non admin
 - Cookie de session : `HttpOnly`, `SameSite=Strict`
 - Option "Se souvenir de moi" : token SHA-256 stocké en base avec expiration 30 jours
 
-### Traçabilité et journalisation
+### Traçabilité, journalisation et monitoring
 
 La table `rate_limit` assure une traçabilité minimale des actions sensibles par IP :
 
@@ -144,6 +145,31 @@ La table `rate_limit` assure une traçabilité minimale des actions sensibles pa
 | `login` | 5 tentatives | 5 minutes |
 | `register` | 5 tentatives | 1 heure |
 | `reset_password` | 3 tentatives | 10 minutes |
+
+Un système de monitoring temps réel a été mis en place avec **Prometheus + Grafana** :
+
+- **Prometheus** (port 9090) collecte les métriques toutes les 30 secondes via l'endpoint `/cyna/metrics.php`
+- **Grafana** (port 3001) affiche les dashboards et déclenche des alertes par e-mail
+
+Métriques exposées :
+
+| Métrique Prometheus | Description |
+|---|---|
+| `cyna_users_total` | Nombre total d'utilisateurs inscrits |
+| `cyna_users_admin_total` | Nombre d'administrateurs |
+| `cyna_orders_by_status{status}` | Commandes par statut (pending / paid / shipped / cancelled) |
+| `cyna_revenue_total_euros` | Chiffre d'affaires total des commandes payées |
+| `cyna_products_active_total` | Nombre de produits disponibles |
+| `cyna_contact_messages_unread` | Messages de contact non lus |
+| `cyna_login_attempts_last_5min` | Tentatives de connexion sur 5 minutes glissantes |
+
+Alertes configurées dans Grafana :
+
+| Alerte | Seuil | Sévérité | Notification |
+|---|---|---|---|
+| Brute-force détecté | ≥ 5 tentatives de connexion / 5 min | Critical | E-mail immédiat |
+| Commandes bloquées | > 5 commandes `pending` depuis 10 min | Warning | E-mail |
+| Messages non lus | > 10 messages de contact non lus | Warning | E-mail |
 
 ### Conformité RGPD
 
@@ -183,7 +209,7 @@ La sécurité a été traitée selon le référentiel **OWASP Top 10**.
 | A06 — Composants | Stripe SDK et PHPMailer à jour, `composer audit` disponible |
 | A07 — Authentification | `session_regenerate_id()` à la connexion, remember-me token en base |
 | A08 — Intégrité | Webhook Stripe avec vérification signature HMAC-SHA256 |
-| A09 — Journalisation | Rate limiting en base par IP (`rate_limit` table) |
+| A09 — Journalisation | Rate limiting en base par IP (`rate_limit` table) + monitoring Prometheus/Grafana avec alertes brute-force |
 | A10 — CSRF | Token `bin2hex(random_bytes(32))` généré et vérifié sur tous les formulaires POST |
 
 ### Protection CSRF
@@ -239,6 +265,8 @@ function escape(string $s): string {
 | Test RGPD | Export données JSON (art. 20) | Succès — fichier JSON téléchargé | Capture navigateur |
 | Test RGPD | Suppression de compte (art. 17) | Succès — `user_id = NULL` en BDD | phpMyAdmin |
 | Test API | Collection Postman — routes principales | Succès — 200 OK | Collection Postman |
+| Test monitoring | Endpoint `/metrics.php` — métriques Prometheus | Succès — format texte exposition | `curl localhost:8888/cyna/metrics.php` |
+| Test alerte | 5 tentatives de connexion échouées | Succès — alerte Grafana "Firing" | Dashboard Grafana → Alerting |
 
 ### Comptes de test
 
@@ -270,9 +298,12 @@ function escape(string $s): string {
 |---------|-------------|---------|
 | README | [README.md](../README.md) | Installation, stack, fonctionnalités, sécurité |
 | DAT | [docs/DAT.md](DAT.md) | Architecture technique BC3 |
+| Guide d'installation | [guide-installation/guide_installation.md](../guide-installation/guide_installation.md) | Procédure complète macOS/MAMP |
 | Schéma BDD | [sql/schema.sql](../sql/schema.sql) | Définition des 10 tables |
 | Données de test | [sql/seed.sql](../sql/seed.sql) | Produits, catégories, comptes |
 | Collection API | [docs/postman_collection.json](postman_collection.json) | Routes testées via Postman |
+| Config Prometheus | [monitoring/prometheus.yml](../monitoring/prometheus.yml) | Configuration du scraping |
+| Dashboard Grafana | [monitoring/grafana-dashboard.json](../monitoring/grafana-dashboard.json) | Dashboard importable |
 
 ### Routes principales de l'application
 
@@ -293,6 +324,7 @@ function escape(string $s): string {
 | `/cyna/admin/commandes.php` | GET/POST | Admin | Gestion commandes |
 | `/cyna/admin/utilisateurs.php` | GET/POST | Admin | Gestion utilisateurs |
 | `/cyna/stripe-webhook.php` | POST | Stripe | Webhook paiement |
+| `/cyna/metrics.php` | GET | Interne | Métriques Prometheus |
 
 ### Preuve
 

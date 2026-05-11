@@ -1,0 +1,111 @@
+{
+  "title": "CYNA — Monitoring",
+  "uid": "cyna-monitoring",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Utilisateurs inscrits",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "expr": "cyna_users_total",
+        "legendFormat": "Total"
+      }],
+      "options": { "colorMode": "background", "graphMode": "none" },
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "blue" } } }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Chiffre d'affaires (€)",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "expr": "cyna_revenue_total_euros",
+        "legendFormat": "CA"
+      }],
+      "options": { "colorMode": "background", "graphMode": "none" },
+      "fieldConfig": { "defaults": {
+        "color": { "mode": "fixed", "fixedColor": "green" },
+        "unit": "currencyEUR",
+        "decimals": 2
+      }}
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Produits actifs",
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "expr": "cyna_products_active_total",
+        "legendFormat": "Produits"
+      }],
+      "options": { "colorMode": "background", "graphMode": "none" },
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "orange" } } }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Messages non lus",
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
+      "targets": [{
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "expr": "cyna_contact_messages_unread",
+        "legendFormat": "Non lus"
+      }],
+      "options": { "colorMode": "background", "graphMode": "none" },
+      "fieldConfig": { "defaults": {
+        "color": { "mode": "thresholds" },
+        "thresholds": {
+          "mode": "absolute",
+          "steps": [
+            { "color": "green", "value": 0 },
+            { "color": "yellow", "value": 1 },
+            { "color": "red", "value": 5 }
+          ]
+        }
+      }}
+    },
+    {
+      "id": 5,
+      "type": "piechart",
+      "title": "Commandes par statut",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "targets": [{
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "expr": "cyna_orders_by_status",
+        "legendFormat": "{{status}}"
+      }],
+      "options": { "pieType": "donut" }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Tentatives de connexion (5 min glissantes)",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "targets": [{
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "expr": "cyna_login_attempts_last_5min",
+        "legendFormat": "Tentatives"
+      }],
+      "fieldConfig": { "defaults": {
+        "color": { "mode": "fixed", "fixedColor": "red" },
+        "thresholds": {
+          "mode": "absolute",
+          "steps": [
+            { "color": "green", "value": 0 },
+            { "color": "yellow", "value": 3 },
+            { "color": "red", "value": 5 }
+          ]
+        }
+      }}
+    }
+  ],
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {}
+}

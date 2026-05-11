@@ -1,6 +1,7 @@
 {
     "require": {
         "stripe/stripe-php": "^20.1",
-        "phpmailer/phpmailer": "^7.0"
+        "phpmailer/phpmailer": "^7.0",
+        "promphp/prometheus_client_php": "^2.15"
     }
 }
