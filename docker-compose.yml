@@ -1,0 +1,58 @@
+services:
+
+  app:
+    build: .
+    container_name: cyna_app
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:-cyna_db}
+      DB_USER: ${DB_USER:-cyna_user}
+      DB_PASS: ${DB_PASS:-cyna_pass}
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-CYNA Security}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./logs:/var/www/html/logs
+    networks:
+      - cyna_network
+
+  db:
+    image: mysql:8.0
+    container_name: cyna_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_NAME:-cyna_db}
+      MYSQL_USER: ${DB_USER:-cyna_user}
+      MYSQL_PASSWORD: ${DB_PASS:-cyna_pass}
+    ports:
+      - "3307:3306"
+    volumes:
+      - cyna_db_data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./sql/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cyna_network
+
+volumes:
+  cyna_db_data:
+
+networks:
+  cyna_network:
+    driver: bridge

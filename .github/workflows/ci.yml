@@ -1,0 +1,85 @@
+name: CI — CYNA
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: PHP 8.2 — Tests & Sécurité
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: cyna_db_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo, pdo_mysql, mbstring, zip
+          coverage: xdebug
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Installer les dépendances
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Initialiser la base de données de test
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_NAME: cyna_db_test
+          DB_USER: root
+          DB_PASS: root
+        run: |
+          mysql -h 127.0.0.1 -u root -proot cyna_db_test < sql/schema.sql
+          mysql -h 127.0.0.1 -u root -proot cyna_db_test < sql/seed.sql
+
+      - name: Lancer les tests PHPUnit
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_NAME: cyna_db_test
+          DB_USER: root
+          DB_PASS: root
+          STRIPE_SECRET_KEY: sk_test_dummy
+          STRIPE_PUBLISHABLE_KEY: pk_test_dummy
+          STRIPE_WEBHOOK_SECRET: whsec_dummy
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: "587"
+          SMTP_USER: test@example.com
+          SMTP_PASS: dummy
+          SMTP_FROM: test@example.com
+          SMTP_FROM_NAME: CYNA Test
+        run: vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
+
+      - name: Vérifier la sécurité des dépendances
+        run: composer audit
+
+      - name: Upload rapport de couverture
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage.xml

@@ -1,0 +1,9 @@
+.env
+.git
+.gitignore
+vendor/
+logs/
+monitoring/
+docs/
+guide-installation/
+*.md
