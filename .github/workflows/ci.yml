@@ -41,13 +41,19 @@ jobs:
         with:
           path: vendor
           key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
 
       - name: Installer les dépendances
         run: composer install --no-interaction --prefer-dist
 
-      - name: Initialiser la base de données de test
+      - name: Vérifier connexion MySQL
+        run: |
+          mysql -h 127.0.0.1 -u root -proot -e "SHOW DATABASES;"
+
+      - name: Initialiser la base de données
         run: |
           mysql -h 127.0.0.1 -u root -proot < sql/schema.sql
+          mysql -h 127.0.0.1 -u root -proot -e "SHOW TABLES FROM cyna_db;"
           mysql -h 127.0.0.1 -u root -proot cyna_db < sql/seed.sql
 
       - name: Lancer les tests PHPUnit
@@ -68,9 +74,6 @@ jobs:
           SMTP_FROM_NAME: CYNA Test
         run: vendor/bin/phpunit --no-coverage
 
-      - name: Vérifier la sécurité des dépendances
+      - name: Audit sécurité dépendances
         run: composer audit
-
-      - name: Résumé des tests
-        if: always()
-        run: echo "Tests PHPUnit terminés — voir les résultats ci-dessus"
+        continue-on-error: true

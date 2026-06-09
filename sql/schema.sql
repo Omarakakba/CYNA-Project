@@ -201,7 +201,7 @@ CREATE TABLE `slide` (
 -- ============================================================
 -- DONNÉES INITIALES — Catégories
 -- ============================================================
-INSERT INTO `category` (`name`, `slug`, `description`) VALUES
+INSERT IGNORE INTO `category` (`name`, `slug`, `description`) VALUES
 ('EDR',         'edr', 'Endpoint Detection & Response — protection des postes de travail'),
 ('SOC Managé',  'soc', 'Security Operations Center — surveillance 24/7 par des experts'),
 ('VPN',         'vpn', 'VPN entreprise chiffré de bout en bout avec gestion centralisée');
@@ -211,7 +211,7 @@ INSERT INTO `category` (`name`, `slug`, `description`) VALUES
 -- Mot de passe par défaut : Admin@cyna2024  (à changer immédiatement)
 -- Hash généré avec : password_hash('Admin@cyna2024', PASSWORD_BCRYPT)
 -- ============================================================
-INSERT INTO `user` (`email`, `password`, `role`, `cgu_accepted_at`, `cgu_version`) VALUES
+INSERT IGNORE INTO `user` (`email`, `password`, `role`, `cgu_accepted_at`, `cgu_version`) VALUES
 ('admin@cyna-security.fr',
  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
  'admin',
