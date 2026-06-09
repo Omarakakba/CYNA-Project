@@ -34,7 +34,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: pdo, pdo_mysql, mbstring, zip
-          coverage: xdebug
+          coverage: none
 
       - name: Cache Composer
         uses: actions/cache@v4
@@ -72,14 +72,11 @@ jobs:
           SMTP_PASS: dummy
           SMTP_FROM: test@example.com
           SMTP_FROM_NAME: CYNA Test
-        run: vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
+        run: vendor/bin/phpunit --no-coverage
 
       - name: Vérifier la sécurité des dépendances
         run: composer audit
 
-      - name: Upload rapport de couverture
-        uses: actions/upload-artifact@v4
+      - name: Résumé des tests
         if: always()
-        with:
-          name: coverage-report
-          path: coverage.xml
+        run: echo "Tests PHPUnit terminés — voir les résultats ci-dessus"
