@@ -98,7 +98,7 @@ L'architecture retenue est une **architecture monolithique PHP côté serveur** 
 
 ## 2.1 Schéma d'architecture globale
 
-> **[CAPTURE À INSÉRER]** — Ouvre le fichier `docs/architecture-cyna.drawio` sur https://app.diagrams.net et fais une capture d'écran du schéma complet. Nomme le fichier `docs/images/architecture-cyna.png`.
+![Schéma d'architecture CYNA](images/architecture-cyna.png)
 
 Le schéma représente :
 - **Navigateur Web** (HTML/CSS/JS) → Apache 2.4 (port 8888 local / 80 prod)
@@ -128,7 +128,7 @@ Capture PNG : `docs/images/architecture-cyna.png`
 
 ## 2.3 Modèle de données (ERD)
 
-> **[CAPTURE À INSÉRER]** — Ouvre phpMyAdmin sur http://localhost:8888/phpMyAdmin/, sélectionne `cyna_db`, clique sur **Concepteur** (ou **Designer**) dans le menu du haut. Fais une capture d'écran du schéma ERD. Nomme le fichier `docs/images/erd.png`.
+![ERD — Modèle de données CYNA](images/erd.png)
 
 **Tables et relations :**
 
@@ -252,7 +252,7 @@ RUN composer install --no-dev --optimize-autoloader
 
 ## 3.2 Pipeline CI/CD — GitHub Actions
 
-> **[CAPTURE À INSÉRER]** — Va sur https://github.com/Omarakakba/CYNA-Project/actions et fais une capture d'écran montrant le workflow `CI — CYNA` avec un statut vert (passed). Nomme le fichier `docs/images/github-actions.png`.
+*Capture GitHub Actions à insérer après le prochain run vert.*
 
 | Étape | Déclencheur | Actions | Résultat |
 |---|---|---|---|
@@ -504,11 +504,7 @@ Header always unset Server
 
 ## 5.2 Rapport PHPUnit coverage
 
-> **[CAPTURE À INSÉRER]** — Ouvre un terminal dans `/Applications/MAMP/htdocs/cyna/` et exécute :
-> ```bash
-> /Applications/MAMP/bin/php/php8.2.20/bin/php vendor/bin/phpunit --colors=never
-> ```
-> Fais une capture d'écran du résultat dans le terminal. Nomme le fichier `docs/images/phpunit-coverage.png`.
+*Capture PHPUnit à insérer (résultat terminal 29/29 tests).*
 
 **Résultat attendu :**
 ```
@@ -528,7 +524,7 @@ Tests: 29, Assertions: 31, Skipped: 1.
 
 ## 5.3 Tests API — Collection Postman
 
-> **[CAPTURE À INSÉRER]** — Ouvre Postman, importe le fichier `docs/postman_collection.json` si disponible, ou crée une collection avec les routes ci-dessous et fais une capture des résultats. Nomme le fichier `docs/images/postman-tests.png`.
+*Capture Postman à insérer.*
 
 | Route testée | Méthode | Résultat attendu |
 |---|---|---|
@@ -610,7 +606,7 @@ curl -I https://omar05.alwaysdata.net/cyna/
 # Réponse : HTTP/1.1 200 OK
 ```
 
-> **[CAPTURE À INSÉRER]** — Ouvre http://localhost:3001, connecte-toi avec `admin/admin`, va dans **Dashboards → CYNA — Monitoring** et fais une capture d'écran du dashboard avec les panels affichant des données. Nomme le fichier `docs/images/grafana-dashboard.png`.
+![Dashboard Grafana — Monitoring CYNA](images/grafana-dashboard.png)
 
 **Logs applicatifs :**
 ```bash
