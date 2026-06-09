@@ -8,7 +8,7 @@ USE cyna_db;
 -- ============================================================
 -- Catégories
 -- ============================================================
-INSERT INTO `category` (`name`, `slug`, `description`) VALUES
+INSERT IGNORE INTO `category` (`name`, `slug`, `description`) VALUES
 ('EDR',        'edr', 'Endpoint Detection & Response — protection des postes de travail'),
 ('SOC Managé', 'soc', 'Security Operations Center — surveillance 24/7 par des experts'),
 ('VPN',        'vpn', 'VPN entreprise chiffré de bout en bout avec gestion centralisée');
@@ -16,7 +16,7 @@ INSERT INTO `category` (`name`, `slug`, `description`) VALUES
 -- ============================================================
 -- Produits
 -- ============================================================
-INSERT INTO `product` (`name`, `description`, `long_description`, `price`, `category_id`, `is_available`) VALUES
+INSERT IGNORE INTO `product` (`name`, `description`, `long_description`, `price`, `category_id`, `is_available`) VALUES
 (
     'CYNA EDR Starter',
     'Protection endpoint EDR pour TPE/PME. Détection comportementale en temps réel, isolation automatique des menaces.',
@@ -51,7 +51,7 @@ INSERT INTO `product` (`name`, `description`, `long_description`, `price`, `cate
 -- ============================================================
 -- Slides du carousel (page d'accueil)
 -- ============================================================
-INSERT INTO `slide` (`title`, `subtitle`, `link_url`, `link_label`, `bg_color`, `sort_order`, `is_active`) VALUES
+INSERT IGNORE INTO `slide` (`title`, `subtitle`, `link_url`, `link_label`, `bg_color`, `sort_order`, `is_active`) VALUES
 (
     'Protection Zero Trust pour votre entreprise',
     'CYNA EDR Pro détecte et neutralise les menaces en temps réel avant qu''elles se propagent sur votre réseau.',
@@ -82,7 +82,7 @@ INSERT INTO `slide` (`title`, `subtitle`, `link_url`, `link_label`, `bg_color`, 
 -- Mot de passe pour tous : Admin1234!
 -- Hash : password_hash('Admin1234!', PASSWORD_BCRYPT)
 -- ============================================================
-INSERT INTO `user` (`email`, `password`, `role`, `first_name`, `last_name`, `cgu_accepted_at`, `cgu_version`) VALUES
+INSERT IGNORE INTO `user` (`email`, `password`, `role`, `first_name`, `last_name`, `cgu_accepted_at`, `cgu_version`) VALUES
 (
     'admin@cyna-security.fr',
     '$2y$12$eN3uuBZ0gAY3aO16YM7i4eLrnj.D26sRZ0eV8SpaaB3cs16kw9LSi',
