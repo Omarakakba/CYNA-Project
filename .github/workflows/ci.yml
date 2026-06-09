@@ -16,7 +16,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: cyna_db_test
+          MYSQL_DATABASE: cyna_db
         ports:
           - 3306:3306
         options: >-
@@ -46,21 +46,15 @@ jobs:
         run: composer install --no-interaction --prefer-dist
 
       - name: Initialiser la base de données de test
-        env:
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_NAME: cyna_db_test
-          DB_USER: root
-          DB_PASS: root
         run: |
-          mysql -h 127.0.0.1 -u root -proot cyna_db_test < sql/schema.sql
-          mysql -h 127.0.0.1 -u root -proot cyna_db_test < sql/seed.sql
+          mysql -h 127.0.0.1 -u root -proot < sql/schema.sql
+          mysql -h 127.0.0.1 -u root -proot cyna_db < sql/seed.sql
 
       - name: Lancer les tests PHPUnit
         env:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
-          DB_NAME: cyna_db_test
+          DB_NAME: cyna_db
           DB_USER: root
           DB_PASS: root
           STRIPE_SECRET_KEY: sk_test_dummy
