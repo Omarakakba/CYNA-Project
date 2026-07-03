@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; }
+
+  /* ── Each slide = one A4 landscape page ── */
+  .slide {
+    width: 297mm;
+    height: 210mm;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ══════════ SLIDE 1 — COVER ══════════ */
+  .slide-cover {
+    background: #060c1b;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .slide-cover .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #2a5298, #f0c040);
+  }
+  .slide-cover .bottom-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #f0c040, #2a5298);
+  }
+  .cover-tag {
+    background: #2a5298;
+    color: #fff;
+    padding: 6px 24px;
+    border-radius: 30px;
+    font-size: 11pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .cover-title {
+    font-size: 60pt;
+    font-weight: 900;
+    color: #f0c040;
+    letter-spacing: 5px;
+    line-height: 1;
+  }
+  .cover-subtitle {
+    font-size: 17pt;
+    color: #7eb3f5;
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+  .cover-name {
+    font-size: 16pt;
+    color: #fff;
+    font-weight: 700;
+  }
+  .cover-info {
+    font-size: 11pt;
+    color: #aaa;
+    margin-top: 6px;
+  }
+  .slide-num {
+    position: absolute;
+    bottom: 20px;
+    right: 28px;
+    font-size: 9pt;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ══════════ STANDARD SLIDE ══════════ */
+  .slide-header {
+    background: #060c1b;
+    padding: 22px 40px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .slide-num-badge {
+    background: #f0c040;
+    color: #060c1b;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 14pt;
+    flex-shrink: 0;
+  }
+  .slide-title {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #fff;
+  }
+  .slide-body {
+    flex: 1;
+    padding: 28px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* ══════════ ELEMENTS ══════════ */
+  .big-text {
+    font-size: 18pt;
+    color: #1a1a1a;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .big-text strong { color: #060c1b; }
+
+  ul.diapo-list {
+    list-style: none;
+    padding: 0;
+  }
+  ul.diapo-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+  }
+  ul.diapo-list li:last-child { border-bottom: none; }
+  ul.diapo-list li .bullet {
+    background: #2a5298;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10pt;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* tech grid */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .tech-card {
+    background: #f0f4ff;
+    border: 2px solid #2a5298;
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .tech-card .tech-icon {
+    font-size: 22pt;
+    margin-bottom: 6px;
+  }
+  .tech-card .tech-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #060c1b;
+  }
+  .tech-card .tech-role {
+    font-size: 9pt;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  /* 2 columns layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .col-box {
+    background: #f5f7ff;
+    border-left: 5px solid #2a5298;
+    border-radius: 0 8px 8px 0;
+    padding: 18px 20px;
+  }
+  .col-box.dark {
+    background: #060c1b;
+    border-left: 5px solid #f0c040;
+    color: #fff;
+  }
+  .col-box .box-title {
+    font-size: 13pt;
+    font-weight: 800;
+    color: #2a5298;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .col-box.dark .box-title { color: #f0c040; }
+  .col-box p, .col-box li {
+    font-size: 12pt;
+    line-height: 1.7;
+    color: #222;
+  }
+  .col-box.dark p, .col-box.dark li { color: #ddd; }
+  .col-box ul { list-style: none; padding: 0; }
+  .col-box ul li::before { content: '→ '; color: #2a5298; font-weight: 700; }
+  .col-box.dark ul li::before { color: #f0c040; }
+
+  /* number highlight */
+  .numbers-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  .num-box {
+    background: #060c1b;
+    color: #fff;
+    border-radius: 12px;
+    padding: 20px 30px;
+    text-align: center;
+    flex: 1;
+  }
+  .num-box .big-num {
+    font-size: 36pt;
+    font-weight: 900;
+    color: #f0c040;
+    line-height: 1;
+  }
+  .num-box .num-label {
+    font-size: 10pt;
+    color: #aaa;
+    margin-top: 6px;
+  }
+
+  /* bug card */
+  .bug-card {
+    background: #fff8f0;
+    border-left: 5px solid #e65100;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+  }
+  .bug-card .bug-title { font-size: 12.5pt; font-weight: 700; color: #e65100; margin-bottom: 5px; }
+  .bug-card .bug-body { font-size: 11.5pt; color: #333; line-height: 1.6; }
+  .bug-card .bug-fix { font-size: 11pt; color: #2e7d32; margin-top: 5px; font-weight: 600; }
+
+  /* conclusion */
+  .conclu-box {
+    background: linear-gradient(135deg, #060c1b, #0d2044);
+    border-radius: 14px;
+    padding: 30px 36px;
+    color: #fff;
+    font-size: 15pt;
+    line-height: 1.9;
+    text-align: center;
+  }
+  .conclu-box strong { color: #f0c040; }
+
+  /* slide number bottom right */
+  .page-num {
+    position: absolute;
+    bottom: 12px;
+    right: 24px;
+    font-size: 9pt;
+    color: #bbb;
+  }
+
+  /* accent bar under header */
+  .accent { height: 4px; background: linear-gradient(90deg, #2a5298, #f0c040); flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ SLIDE 1 — COVER ══════════════════════════════ -->
+<div class="slide slide-cover">
+  <div class="top-bar"></div>
+  <div class="cover-tag">Prise de parole — Épreuve orale</div>
+  <div class="cover-title">CYNA</div>
+  <div class="cover-subtitle">Plateforme SaaS de Cybersécurité</div>
+  <div class="cover-name">Omar AKAKBA</div>
+  <div class="cover-info">Développeur Back-End · CPI Bachelor DEV Full Stack · INGETIS 2025-2026</div>
+  <div class="bottom-bar"></div>
+  <div class="slide-num">1 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 2 — QUI JE SUIS ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">1</div>
+    <div class="slide-title">Qui je suis</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body">
+    <div class="two-col">
+      <div>
+        <div class="big-text" style="font-size:20pt; margin-bottom:20px;">
+          Je suis <strong>Omar Akakba</strong>,<br>en CPI Bachelor<br><strong>Développement Full Stack</strong><br>à INGETIS / SUP DE VINCI.
+        </div>
+        <div class="big-text" style="font-size:14pt; color:#555;">
+          Promotion 2025-2026
+        </div>
+      </div>
+      <div>
+        <div class="col-box">
+          <div class="box-title">Mon rôle dans l'équipe</div>
+          <ul>
+            <li>Développeur <strong>Back-End</strong></li>
+            <li>Base de données</li>
+            <li>Sécurité</li>
+            <li>Tests automatiques</li>
+            <li>Déploiement</li>
+          </ul>
+        </div>
+        <div class="col-box dark" style="margin-top:14px;">
+          <div class="box-title">Mon collègue</div>
+          <p><strong>Elyes Jaffel</strong> — Développeur Front-End</p>
+          <p style="font-size:10.5pt; margin-top:6px;">Design, pages visuelles, JavaScript</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">2 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 3 — C'EST QUOI CYNA ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">2</div>
+    <div class="slide-title">C'est quoi CYNA ?</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body">
+    <div class="big-text" style="margin-bottom:20px;">
+      Un <strong>site web de cybersécurité</strong> où les entreprises peuvent acheter<br>
+      des protections numériques sous forme d'abonnement.
+    </div>
+    <ul class="diapo-list">
+      <li>
+        <div class="bullet">🛡</div>
+        <div><strong>EDR</strong> — Protection des ordinateurs en temps réel contre les virus et les attaques</div>
+      </li>
+      <li>
+        <div class="bullet">👁</div>
+        <div><strong>SOC Managé</strong> — Des experts qui surveillent votre réseau 24h/24, 7j/7</div>
+      </li>
+      <li>
+        <div class="bullet">🔒</div>
+        <div><strong>VPN Entreprise</strong> — Connexion sécurisée pour les employés en télétravail</div>
+      </li>
+    </ul>
+    <div style="margin-top:18px; background:#e8f0fe; border-radius:8px; padding:12px 18px; font-size:12.5pt; color:#1565c0;">
+      👤 Un client peut : <strong>créer un compte → choisir un produit → payer en ligne → gérer ses abonnements</strong>
+    </div>
+  </div>
+  <div class="page-num">3 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 4 — TECHNOLOGIES ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">3</div>
+    <div class="slide-title">Les technologies utilisées</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body">
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">🐘</div>
+        <div class="tech-name">PHP 8.2</div>
+        <div class="tech-role">Langage back-end<br>(sans framework)</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🗄️</div>
+        <div class="tech-name">MySQL 8.0</div>
+        <div class="tech-role">Base de données</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🎨</div>
+        <div class="tech-name">Bootstrap 5</div>
+        <div class="tech-role">Design / CSS<br>(côté Elyes)</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">💳</div>
+        <div class="tech-name">Stripe</div>
+        <div class="tech-role">Paiement en ligne</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🐳</div>
+        <div class="tech-name">Docker</div>
+        <div class="tech-role">Environnement<br>de travail</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">⚙️</div>
+        <div class="tech-name">GitHub Actions</div>
+        <div class="tech-role">Tests automatiques<br>(CI/CD)</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🧪</div>
+        <div class="tech-name">PHPUnit 11</div>
+        <div class="tech-role">Tests du code</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">📊</div>
+        <div class="tech-name">Grafana</div>
+        <div class="tech-role">Surveillance<br>du site</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">4 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 5 — CE QUE J'AI FAIT ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">4</div>
+    <div class="slide-title">Ce que j'ai développé</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body">
+    <ul class="diapo-list">
+      <li>
+        <div class="bullet">1</div>
+        <div><strong>La base de données</strong> — 10 tables : utilisateurs, commandes, produits, paiements, adresses…</div>
+      </li>
+      <li>
+        <div class="bullet">2</div>
+        <div><strong>Le système de connexion</strong> — mot de passe chiffré avec bcrypt, sessions sécurisées</div>
+      </li>
+      <li>
+        <div class="bullet">3</div>
+        <div><strong>Le paiement Stripe</strong> — le client paye, Stripe confirme, la commande est mise à jour automatiquement</div>
+      </li>
+      <li>
+        <div class="bullet">4</div>
+        <div><strong>L'espace client</strong> — voir ses commandes, modifier son profil, supprimer son compte (RGPD)</div>
+      </li>
+      <li>
+        <div class="bullet">5</div>
+        <div><strong>Le backoffice admin</strong> — gérer les produits, les commandes, les clients</div>
+      </li>
+      <li>
+        <div class="bullet">6</div>
+        <div><strong>29 tests automatiques</strong> — ils vérifient que le code fonctionne à chaque modification</div>
+      </li>
+    </ul>
+  </div>
+  <div class="page-num">5 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 6 — SÉCURITÉ ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">5</div>
+    <div class="slide-title">La sécurité</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body">
+    <div class="big-text" style="margin-bottom:18px; font-size:15pt; color:#555;">
+      J'ai protégé le site contre les attaques les plus courantes :
+    </div>
+    <div class="two-col" style="gap:16px;">
+      <div>
+        <div class="col-box" style="margin-bottom:14px;">
+          <div class="box-title">Mots de passe</div>
+          <p>Chiffrés avec <strong>bcrypt</strong> — personne ne peut les lire, même en accès BDD</p>
+        </div>
+        <div class="col-box">
+          <div class="box-title">Anti-attaque robot</div>
+          <p>Après <strong>5 mauvais mots de passe</strong>, le compte est bloqué 15 min automatiquement</p>
+        </div>
+      </div>
+      <div>
+        <div class="col-box" style="margin-bottom:14px;">
+          <div class="box-title">Injection SQL</div>
+          <p>Toutes les requêtes sont <strong>préparées</strong> — impossible de pirater la base de données via les formulaires</p>
+        </div>
+        <div class="col-box">
+          <div class="box-title">RGPD</div>
+          <p>Le client peut <strong>supprimer son compte</strong> ou <strong>télécharger ses données</strong> en un clic</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">6 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 7 — DIFFICULTÉS ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">6</div>
+    <div class="slide-title">Les difficultés rencontrées</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body">
+    <div class="bug-card">
+      <div class="bug-title">🐳 Docker ne se lançait pas sur mon Mac</div>
+      <div class="bug-body">Docker Desktop était incompatible avec la nouvelle version de macOS (Sequoia).</div>
+      <div class="bug-fix">✅ Solution : j'ai installé OrbStack, une alternative compatible. Problème résolu.</div>
+    </div>
+    <div class="bug-card">
+      <div class="bug-title">⚙️ Les tests automatiques échouaient</div>
+      <div class="bug-body">Le pipeline CI/CD plantait à cause d'un nom de base de données différent entre les fichiers.</div>
+      <div class="bug-fix">✅ Solution : j'ai aligné le nom partout. Les 29 tests sont passés au vert.</div>
+    </div>
+    <div class="bug-card">
+      <div class="bug-title">📊 La page de monitoring affichait une erreur 500</div>
+      <div class="bug-body">Une seule ligne de code mal placée bloquait toute la page de surveillance.</div>
+      <div class="bug-fix">✅ Solution : j'ai trouvé la ligne, je l'ai déplacée. Le monitoring fonctionne parfaitement.</div>
+    </div>
+  </div>
+  <div class="page-num">7 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 8 — CE QUE J'AI APPRIS ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">7</div>
+    <div class="slide-title">Ce que j'ai appris</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body">
+    <div class="numbers-row" style="margin-bottom:22px;">
+      <div class="num-box">
+        <div class="big-num">29</div>
+        <div class="num-label">tests automatiques écrits</div>
+      </div>
+      <div class="num-box">
+        <div class="big-num">10</div>
+        <div class="num-label">tables en base de données</div>
+      </div>
+      <div class="num-box">
+        <div class="big-num">7</div>
+        <div class="num-label">bugs résolus</div>
+      </div>
+      <div class="num-box">
+        <div class="big-num">2</div>
+        <div class="num-label">développeurs, 1 vrai produit</div>
+      </div>
+    </div>
+    <ul class="diapo-list">
+      <li><div class="bullet">★</div><div><strong>Travailler en équipe</strong> — se répartir les tâches et s'organiser</div></li>
+      <li><div class="bullet">★</div><div><strong>Sécuriser un site</strong> dès le départ, pas à la fin</div></li>
+      <li><div class="bullet">★</div><div><strong>Tester son code</strong> — les tests évitent les bugs en production</div></li>
+      <li><div class="bullet">★</div><div><strong>Résoudre seul</strong> — chercher, comprendre les erreurs, corriger</div></li>
+    </ul>
+  </div>
+  <div class="page-num">8 / 9</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 9 — CONCLUSION ══════════════════════════════ -->
+<div class="slide">
+  <div class="slide-header">
+    <div class="slide-num-badge">8</div>
+    <div class="slide-title">Conclusion</div>
+  </div>
+  <div class="accent"></div>
+  <div class="slide-body" style="justify-content:center; gap:24px;">
+    <div class="conclu-box">
+      CYNA m'a permis de mettre en pratique tout ce que j'ai appris en formation :<br>
+      <strong>base de données · sécurité · tests · déploiement</strong><br><br>
+      C'est un projet dont je suis <strong>fier</strong> — il est en ligne, il est sécurisé, il est documenté.
+    </div>
+    <div style="text-align:center; margin-top:16px;">
+      <div style="font-size:15pt; color:#555; margin-bottom:8px;">
+        🌐 <strong style="color:#2a5298;">omar05.alwaysdata.net/cyna/</strong>
+      </div>
+      <div style="font-size:13pt; color:#888;">
+        GitHub : Omarakakba/CYNA-Project
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:20px; font-size:20pt; font-weight:800; color:#060c1b;">
+      Merci. Je suis disponible pour vos questions.
+    </div>
+  </div>
+  <div class="page-num">9 / 9</div>
+</div>
+
+</body>
+</html>

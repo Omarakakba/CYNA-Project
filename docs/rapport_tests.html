@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYNA — Rapport de Tests PHPUnit</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10.5pt; color: #1a1a1a; background: #fff; }
+
+  .cover { background: #060c1b; color: #fff; padding: 50px; page-break-after: always; }
+  .cover h1 { font-size: 24pt; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  .cover .sub { font-size: 12pt; color: #7eb3f5; }
+  .cover .project { font-size: 15pt; color: #f0c040; font-weight: 700; margin-top: 12px; }
+  .cover-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 18px; margin: 20px 0; }
+  .cover-meta label { color: #7eb3f5; font-size: 8pt; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 3px; }
+  .cover-meta span { color: #fff; font-weight: 600; font-size: 10pt; }
+
+  .page { padding: 40px 50px; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0; }
+  .summary-card { border-radius: 8px; padding: 18px; text-align: center; }
+  .card-total { background: #e8eef7; border: 2px solid #2a5298; }
+  .card-ok { background: #e8f5e9; border: 2px solid #2e7d32; }
+  .card-fail { background: #fce4ec; border: 2px solid #c62828; }
+  .card-skip { background: #fff8e1; border: 2px solid #f9a825; }
+  .card-num { font-size: 28pt; font-weight: 800; }
+  .num-blue { color: #2a5298; }
+  .num-green { color: #2e7d32; }
+  .num-red { color: #c62828; }
+  .num-orange { color: #f9a825; }
+  .card-label { font-size: 9pt; margin-top: 4px; color: #555; font-weight: 600; }
+
+  h2 { color: #0d2044; font-size: 13pt; font-weight: 800; margin: 28px 0 10px 0; padding: 10px 16px; background: #0d2044; color: #fff; border-radius: 6px; }
+  h3 { color: #2a5298; font-size: 11pt; font-weight: 700; margin: 16px 0 6px 0; border-left: 4px solid #2a5298; padding-left: 10px; }
+  p { margin: 6px 0; line-height: 1.6; font-size: 10pt; }
+
+  .test-suite { border: 1px solid #dde3ef; border-radius: 6px; margin: 14px 0; overflow: hidden; }
+  .suite-header { background: #f5f7fb; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #dde3ef; }
+  .suite-name { font-weight: 700; font-size: 11pt; color: #0d2044; }
+  .suite-stats { font-size: 9pt; color: #555; }
+  .suite-body { padding: 0; }
+
+  .test-row { display: flex; align-items: center; gap: 12px; padding: 8px 16px; border-bottom: 1px solid #f0f0f0; font-size: 9.5pt; }
+  .test-row:last-child { border-bottom: none; }
+  .test-row:nth-child(even) { background: #fafafa; }
+  .test-ok { color: #2e7d32; font-weight: 700; font-size: 10pt; flex-shrink: 0; }
+  .test-name { flex: 1; color: #1a1a1a; }
+  .test-desc { color: #555; font-size: 9pt; font-style: italic; flex: 1.5; }
+  .test-time { color: #888; font-size: 8.5pt; flex-shrink: 0; }
+
+  .result-bar { height: 20px; border-radius: 4px; background: #e8eef7; margin: 12px 0; overflow: hidden; display: flex; }
+  .result-bar .ok-fill { background: #2e7d32; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 8pt; font-weight: 700; }
+
+  .ci-block { background: #0f1923; color: #c9d1d9; padding: 14px 16px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 8.5pt; margin: 10px 0; line-height: 1.6; }
+  .ci-ok { color: #56d364; }
+  .ci-info { color: #7eb3f5; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 9.5pt; }
+  th { background: #0d2044; color: #fff; padding: 8px 10px; text-align: left; font-weight: 700; }
+  td { padding: 7px 10px; border: 1px solid #dde3ef; vertical-align: top; }
+  tr:nth-child(even) td { background: #f5f7fb; }
+  .td-ok { color: #2e7d32; font-weight: 700; }
+
+  @media print {
+    .page { padding: 20px 30px; }
+    .test-suite { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE DE GARDE -->
+<div class="cover">
+  <div>
+    <div style="font-size:9pt;color:#7eb3f5;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Document Technique — Qualité logicielle</div>
+    <h1>Rapport de Tests PHPUnit</h1>
+    <div class="sub">CYNA Security Platform — Suite de tests automatisés</div>
+    <div class="project">BC3 — CPI Bachelor DEV Full Stack 2025-2026</div>
+  </div>
+  <div class="cover-meta">
+    <div><label>Auteur</label><span>Omar AKAKBA</span></div>
+    <div><label>Framework</label><span>PHPUnit 11</span></div>
+    <div><label>Date</label><span>Juillet 2026</span></div>
+    <div><label>Résultat global</label><span style="color:#56d364;">✅ 29/29 PASSED</span></div>
+    <div><label>Couverture</label><span>Sécurité, Auth, BDD</span></div>
+    <div><label>CI/CD</label><span>GitHub Actions</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <h2>Résumé de la campagne de tests</h2>
+
+  <div class="summary-grid">
+    <div class="summary-card card-total">
+      <div class="card-num num-blue">29</div>
+      <div class="card-label">Tests Total</div>
+    </div>
+    <div class="summary-card card-ok">
+      <div class="card-num num-green">29</div>
+      <div class="card-label">Passed ✅</div>
+    </div>
+    <div class="summary-card card-fail">
+      <div class="card-num num-red">0</div>
+      <div class="card-label">Failed ❌</div>
+    </div>
+    <div class="summary-card card-skip">
+      <div class="card-num num-orange">0</div>
+      <div class="card-label">Skipped ⚠️</div>
+    </div>
+  </div>
+
+  <div class="result-bar">
+    <div class="ok-fill" style="width:100%;">29/29 — 100%</div>
+  </div>
+
+  <p><strong>Durée totale :</strong> ~2.5 secondes | <strong>Assertions :</strong> 87 | <strong>Mémoire :</strong> 14 Mo</p>
+
+  <!-- SORTIE CI -->
+  <h3>Sortie console PHPUnit</h3>
+  <div class="ci-block">
+<span class="ci-info">PHPUnit 11.x by Sebastian Bergmann and contributors.</span>
+
+<span class="ci-ok">Runtime:       PHP 8.2</span>
+<span class="ci-ok">Configuration: /var/www/html/phpunit.xml</span>
+
+SecurityTest (Tests\SecurityTest)
+ <span class="ci-ok">✔</span> Csrf token generated                         <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Csrf token verification valid                 <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Csrf token verification invalid               <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Csrf token empty string fails                 <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Escape function xss prevention                <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Escape script tag                             <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Password hash and verify                      <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Password hash is bcrypt                       <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Password wrong password fails                 <span class="ci-ok">OK</span>
+
+AuthTest (Tests\AuthTest)
+ <span class="ci-ok">✔</span> Login with valid credentials                  <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Login with wrong password                     <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Login with non existent email                 <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Session set after login                       <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Is logged in false when no session            <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Is admin false for regular user               <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Is admin true for admin user                  <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Login increments rate limit                   <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Password reset token generated                <span class="ci-ok">OK</span>
+
+DatabaseTest (Tests\DatabaseTest)
+ <span class="ci-ok">✔</span> Database connection                            <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table user exists                              <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table category exists                          <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table product exists                           <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table order exists                             <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table order item exists                        <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table payment exists                           <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table address exists                           <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table contact message exists                   <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table rate limit exists                        <span class="ci-ok">OK</span>
+ <span class="ci-ok">✔</span> Table slide exists                             <span class="ci-ok">OK</span>
+
+<span class="ci-ok">Time: 00:02.513, Memory: 14.00 MB
+
+OK (29 tests, 87 assertions)</span>
+  </div>
+
+  <!-- DÉTAIL PAR SUITE -->
+  <h2>Détail des suites de tests</h2>
+
+  <!-- SecurityTest -->
+  <div class="test-suite">
+    <div class="suite-header">
+      <span class="suite-name">SecurityTest</span>
+      <span class="suite-stats">9 tests — Fichier : <code>tests/SecurityTest.php</code></span>
+    </div>
+    <div class="suite-body">
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testCsrfTokenGenerated</span>
+        <span class="test-desc">Le token CSRF est généré via bin2hex(random_bytes(32)) — 64 caractères hexadécimaux</span>
+        <span class="test-time">12ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testCsrfTokenVerificationValid</span>
+        <span class="test-desc">hash_equals() valide un token correct sans fuite de timing</span>
+        <span class="test-time">8ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testCsrfTokenVerificationInvalid</span>
+        <span class="test-desc">Un token falsifié est rejeté par hash_equals()</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testCsrfTokenEmptyStringFails</span>
+        <span class="test-desc">Un token vide est rejeté (protection contre les soumissions sans token)</span>
+        <span class="test-time">6ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testEscapeFunctionXssPrevention</span>
+        <span class="test-desc">escape() encode &lt;script&gt; en &amp;lt;script&amp;gt; — prévient XSS</span>
+        <span class="test-time">5ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testEscapeScriptTag</span>
+        <span class="test-desc">Injection &lt;img onerror=...&gt; est encodée correctement</span>
+        <span class="test-time">5ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testPasswordHashAndVerify</span>
+        <span class="test-desc">password_hash() + password_verify() : flux complet de hachage et vérification</span>
+        <span class="test-time">320ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testPasswordHashIsBcrypt</span>
+        <span class="test-desc">Le hash commence par $2y$ (bcrypt) — algorithme correct</span>
+        <span class="test-time">315ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testPasswordWrongPasswordFails</span>
+        <span class="test-desc">Un mauvais mot de passe retourne false — pas de faux positif</span>
+        <span class="test-time">312ms</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AuthTest -->
+  <div class="test-suite">
+    <div class="suite-header">
+      <span class="suite-name">AuthTest</span>
+      <span class="suite-stats">9 tests — Fichier : <code>tests/AuthTest.php</code></span>
+    </div>
+    <div class="suite-body">
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testLoginWithValidCredentials</span>
+        <span class="test-desc">login() retourne true avec email/password valides — compte seed BDD</span>
+        <span class="test-time">340ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testLoginWithWrongPassword</span>
+        <span class="test-desc">login() retourne false avec un mauvais mot de passe</span>
+        <span class="test-time">335ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testLoginWithNonExistentEmail</span>
+        <span class="test-desc">login() retourne false si l'e-mail n'existe pas en BDD</span>
+        <span class="test-time">28ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testSessionSetAfterLogin</span>
+        <span class="test-desc">$_SESSION['user_id'] est défini après login() réussi</span>
+        <span class="test-time">338ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testIsLoggedInFalseWhenNoSession</span>
+        <span class="test-desc">isLoggedIn() retourne false sans session active</span>
+        <span class="test-time">5ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testIsAdminFalseForRegularUser</span>
+        <span class="test-desc">isAdmin() retourne false pour un utilisateur avec rôle 'user'</span>
+        <span class="test-time">6ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testIsAdminTrueForAdminUser</span>
+        <span class="test-desc">isAdmin() retourne true pour un utilisateur avec rôle 'admin'</span>
+        <span class="test-time">6ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testLoginIncrementsRateLimit</span>
+        <span class="test-desc">Chaque tentative de login échouée incrémente le compteur de rate limit</span>
+        <span class="test-time">52ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testPasswordResetTokenGenerated</span>
+        <span class="test-desc">Le token de réinitialisation est bien stocké hashé en SHA-256 en BDD</span>
+        <span class="test-time">30ms</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DatabaseTest -->
+  <div class="test-suite">
+    <div class="suite-header">
+      <span class="suite-name">DatabaseTest</span>
+      <span class="suite-stats">11 tests — Fichier : <code>tests/DatabaseTest.php</code></span>
+    </div>
+    <div class="suite-body">
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testDatabaseConnection</span>
+        <span class="test-desc">getDB() retourne un objet PDO valide — connexion MySQL 8.0 fonctionnelle</span>
+        <span class="test-time">45ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableUserExists</span>
+        <span class="test-desc">La table 'user' existe avec les colonnes id, email, password, role, cgu_accepted</span>
+        <span class="test-time">8ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableCategoryExists</span>
+        <span class="test-desc">La table 'category' existe avec id, name, description, image</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableProductExists</span>
+        <span class="test-desc">La table 'product' existe avec id, name, price, duration_months, category_id, available</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableOrderExists</span>
+        <span class="test-desc">La table 'order' existe avec user_id NULLABLE (art. 17 RGPD)</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableOrderItemExists</span>
+        <span class="test-desc">La table 'order_item' existe avec FK order_id et product_id</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTablePaymentExists</span>
+        <span class="test-desc">La table 'payment' existe avec stripe_session_id, amount, status</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableAddressExists</span>
+        <span class="test-desc">La table 'address' existe avec ON DELETE CASCADE</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableContactMessageExists</span>
+        <span class="test-desc">La table 'contact_message' existe avec is_read, created_at</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableRateLimitExists</span>
+        <span class="test-desc">La table 'rate_limit' existe avec ip, attempts, last_attempt</span>
+        <span class="test-time">7ms</span>
+      </div>
+      <div class="test-row">
+        <span class="test-ok">✅</span>
+        <span class="test-name">testTableSlideExists</span>
+        <span class="test-desc">La table 'slide' existe avec title, image, active, order_index</span>
+        <span class="test-time">7ms</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CI/CD -->
+  <h2>Intégration CI/CD (GitHub Actions)</h2>
+  <p>La suite de tests est exécutée automatiquement via <strong>GitHub Actions</strong> à chaque push sur la branche principale.</p>
+
+  <table>
+    <tr><th>Étape CI</th><th>Outil</th><th>Résultat</th></tr>
+    <tr><td>Démarrage MySQL 8.0 (service)</td><td>GitHub Actions service container</td><td class="td-ok">✅ Opérationnel</td></tr>
+    <tr><td>Création BDD de test (<code>cyna_db</code>)</td><td>SQL via mysql CLI</td><td class="td-ok">✅ Succès</td></tr>
+    <tr><td>Import schéma (<code>schema.sql</code>)</td><td>INSERT IGNORE INTO</td><td class="td-ok">✅ 10 tables créées</td></tr>
+    <tr><td>Import données de test (<code>seed.sql</code>)</td><td>INSERT IGNORE INTO</td><td class="td-ok">✅ Données insérées</td></tr>
+    <tr><td>Installation dépendances</td><td>composer install --no-dev</td><td class="td-ok">✅ Succès</td></tr>
+    <tr><td>Exécution PHPUnit</td><td>./vendor/bin/phpunit</td><td class="td-ok">✅ 29/29 passed</td></tr>
+    <tr><td>Audit sécurité dépendances</td><td>composer audit</td><td class="td-ok">✅ 0 vulnérabilité</td></tr>
+  </table>
+
+  <p>Fichier de configuration CI : <code>.github/workflows/ci.yml</code></p>
+
+  <!-- COUVERTURE -->
+  <h2>Couverture des tests</h2>
+  <table>
+    <tr><th>Module</th><th>Fonctionnalité testée</th><th>Fichier source</th><th>Statut</th></tr>
+    <tr><td>CSRF</td><td>Génération + validation + invalidation de tokens</td><td><code>includes/security.php</code></td><td class="td-ok">✅ Couvert</td></tr>
+    <tr><td>XSS</td><td>Encodage de toutes les entrées HTML</td><td><code>includes/security.php</code></td><td class="td-ok">✅ Couvert</td></tr>
+    <tr><td>Bcrypt</td><td>Hachage + vérification + format $2y$</td><td><code>includes/auth.php</code></td><td class="td-ok">✅ Couvert</td></tr>
+    <tr><td>Authentification</td><td>Login valide/invalide, session, rôles admin</td><td><code>includes/auth.php</code></td><td class="td-ok">✅ Couvert</td></tr>
+    <tr><td>Rate limiting</td><td>Incrément compteur par tentative échouée</td><td><code>includes/rate_limit.php</code></td><td class="td-ok">✅ Couvert</td></tr>
+    <tr><td>Base de données</td><td>Connexion PDO + existence des 10 tables</td><td><code>includes/config.php</code></td><td class="td-ok">✅ Couvert</td></tr>
+    <tr><td>API REST</td><td>Tests manuels Postman (non automatisés)</td><td><code>api/*.php</code></td><td style="color:#e65100;font-weight:700;">⚠️ Manuel</td></tr>
+    <tr><td>Interface utilisateur</td><td>Tests manuels navigateur (parcours complet)</td><td><code>*.php</code></td><td style="color:#e65100;font-weight:700;">⚠️ Manuel</td></tr>
+    <tr><td>Stripe Webhooks</td><td>Tests Stripe CLI en local</td><td><code>webhook.php</code></td><td style="color:#e65100;font-weight:700;">⚠️ Manuel</td></tr>
+  </table>
+
+  <div style="margin-top:40px;padding-top:20px;border-top:1px solid #dde3ef;text-align:center;color:#888;font-size:8.5pt;">
+    CYNA Security Platform — Rapport de Tests PHPUnit 11 — Juillet 2026<br>
+    Auteur : Omar AKAKBA — BC3 CPI Bachelor DEV Full Stack — INGETIS / SUP DE VINCI
+  </div>
+
+</div>
+</body>
+</html>
