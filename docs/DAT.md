@@ -36,13 +36,13 @@ Elyes JAFFEL — Sections : P2.1 (schéma architecture), Design System Front-End
 
 **Contenu du Rendu Final BC3**
 
-| Composant | Nature | Format |
-|---|---|---|
-| Le DAT (ce document) | Collectif, sections individuelles identifiées | PDF + DOCX source |
-| Code source | Repository GIT avec historique de commits | https://github.com/Omarakakba/CYNA-Project |
-| Documentation API | Collection Postman | JSON |
-| Guide d'installation | Déploiement reproductible from scratch | `guide-installation/guide_installation.md` |
-| DCT et docs complémentaires | Schémas, rapports tests | docs/ |
+| Composant | Nature | Format | Localisation |
+|---|---|---|---|
+| Le DAT (ce document) | Collectif, sections individuelles identifiées | PDF + DOCX source | `docs/DAT_BC3_FINAL.docx` + `docs/DAT_BC3_CYNA.pdf` |
+| Code source | Repository GIT avec historique complet de commits | URL GitHub | https://github.com/Omarakakba/CYNA-Project |
+| Documentation API | Collection Postman (12 requêtes) + rendu HTML | JSON + HTML | `docs/postman_collection.json` + `docs/api_documentation.html` |
+| Guide d'installation | Procédure déploiement reproductible from scratch | Markdown + PDF | `guide-installation/guide_installation.md` + `docs/guide_installation.pdf` |
+| DCT et docs complémentaires | Schémas ERD + architecture, rapport tests PHPUnit, politique RGPD | PDF + ZIP | `docs/DCT_documents_complementaires.zip` |
 
 > ⚠ **DAT ≠ Document de cadrage** — Le cadrage décrivait le PRÉVU. Le DAT décrit ce qui a été RÉELLEMENT implémenté.
 > Le correcteur externe vérifiera la cohérence entre le DAT écrit et le code GIT déposé.
@@ -524,14 +524,136 @@ Fichiers de tests dans le repository :
 > **GUIDE FORMATEUR — P6**
 > Swagger accessible en ligne OU export JSON. Bilan honnête attendu : compromis, dette technique, leçons.
 
-## 6.1 Index de la documentation livrée
+## 6.1 Index de la documentation livrée — URL Git & Arborescence
+
+**Rédacteur : Omar AKAKBA**
+
+### URL du dépôt GitHub
+
+> **https://github.com/Omarakakba/CYNA-Project**
+
+Le dépôt contient l'intégralité du code source, l'historique complet des commits et tous les documents techniques produits dans le cadre du projet BC3.
+
+L'arborescence de ce repository (contenant le code source et l'historique complet des commits) est détaillée ci-dessous, conformément aux exigences BC3.
+
+### Arborescence complète du dépôt
+
+```
+CYNA-Project/
+├── index.php                          ← Page d'accueil (carousel + produits en vedette)
+├── catalogue.php                      ← Catalogue produits avec filtres par catégorie
+├── produit.php                        ← Fiche produit détaillée
+├── connexion.php                      ← Authentification (session + remember me)
+├── inscription.php                    ← Création de compte (bcrypt cost=12)
+├── logout.php                         ← Déconnexion + suppression cookie remember_me
+├── panier.php                         ← Gestion du panier (session PHP)
+├── commande.php                       ← Tunnel de commande (adresse de facturation)
+├── commande-detail.php                ← Détail d'une commande passée
+├── confirmation.php                   ← Page de confirmation post-paiement Stripe
+├── facture.php                        ← Facture téléchargeable
+├── espace-client.php                  ← Tableau de bord client (commandes, adresses)
+├── profil.php                         ← Modification profil + suppression compte (RGPD art.17)
+├── adresses.php                       ← Gestion des adresses de facturation
+├── abonnements.php                    ← Gestion des abonnements actifs
+├── export-donnees.php                 ← Export RGPD art. 20 — données personnelles JSON
+├── recherche.php                      ← Recherche full-text dans le catalogue
+├── contact.php                        ← Formulaire de contact (anti-spam)
+├── webhook.php                        ← Endpoint Stripe Webhooks (HMAC-SHA256 validation)
+├── metrics.php                        ← Endpoint Prometheus — 7 métriques métier
+├── cgu.php                            ← Conditions Générales d'Utilisation
+├── mentions-legales.php               ← Mentions légales RGPD
+├── mot-de-passe-oublie.php            ← Réinitialisation de mot de passe par e-mail
+│
+├── admin/                             ← Back-office (accès restreint rôle admin)
+│   ├── index.php                      ← Dashboard admin (KPI synthèse)
+│   ├── produits.php                   ← CRUD produits + upload images
+│   ├── categories.php                 ← CRUD catégories de services
+│   ├── commandes.php                  ← Gestion et suivi des commandes
+│   ├── utilisateurs.php               ← Gestion des comptes utilisateurs
+│   ├── messages.php                   ← Messages de contact (marquage lu/non lu)
+│   └── carousel.php                   ← Gestion du carousel de la page d'accueil
+│
+├── api/                               ← API REST JSON publique
+│   ├── products.php                   ← GET /api/products.php (liste, filtre, recherche)
+│   ├── categories.php                 ← GET /api/categories.php (liste + produits)
+│   └── orders.php                     ← GET /api/orders.php (authentifié HTTP Basic Auth)
+│
+├── includes/                          ← Librairies PHP (non exposées directement)
+│   ├── config.php                     ← Configuration BDD, Stripe, SMTP (.gitignore)
+│   ├── config.example.php             ← Template de configuration sans valeurs sensibles
+│   ├── auth.php                       ← login(), logout(), isLoggedIn(), requireAdmin()
+│   ├── security.php                   ← generateCsrfToken(), verifyCsrfToken(), escape()
+│   ├── mail.php                       ← Envoi d'e-mails via PHPMailer + Gmail SMTP
+│   ├── header.php                     ← Header HTML commun (Bootstrap 5 + nav)
+│   ├── footer.php                     ← Footer HTML commun
+│   ├── pagination.php                 ← Composant de pagination réutilisable
+│   └── rate_limit.php                 ← Limite 5 tentatives / 15 min par IP
+│
+├── assets/
+│   ├── css/style.css                  ← Styles CYNA (Bootstrap 5 personnalisé)
+│   ├── js/main.js                     ← JavaScript principal (panier, interactions UI)
+│   ├── js/chatbot.js                  ← Chatbot d'assistance client
+│   ├── images/                        ← Images statiques du site
+│   └── uploads/products/ + slides/   ← Images produits/carousel (upload via admin)
+│
+├── sql/
+│   ├── schema.sql                     ← Schéma BDD (10 tables InnoDB + INSERT IGNORE)
+│   └── seed.sql                       ← Données de démo (6 produits, 3 catégories, 2 comptes)
+│
+├── tests/                             ← Suite de tests PHPUnit 11
+│   ├── bootstrap.php                  ← Initialisation (connexion BDD de test)
+│   ├── SecurityTest.php               ← 9 tests sécurité (CSRF, XSS, bcrypt, rate limit)
+│   ├── AuthTest.php                   ← 9 tests authentification (login, session, cookie)
+│   └── DatabaseTest.php               ← 11 tests BDD (10 tables + contraintes FK)
+│
+├── docs/                              ← Documentation technique complète
+│   ├── DAT_BC3_FINAL.docx             ← Document d'Architecture Technique (Word source)
+│   ├── DAT_BC3_CYNA.pdf               ← Document d'Architecture Technique (PDF final)
+│   ├── postman_collection.json        ← Collection Postman API (12 requêtes documentées)
+│   ├── api_documentation.html         ← Documentation API HTML (rendu lisible navigateur)
+│   ├── api_documentation.pdf          ← Documentation API PDF
+│   ├── guide_installation.pdf         ← Guide d'installation PDF (12 sections)
+│   ├── politique_rgpd.pdf             ← Politique de confidentialité RGPD complète
+│   ├── rapport_tests.pdf              ← Rapport PHPUnit 29/29 tests passés
+│   ├── DCT_documents_complementaires.zip ← ERD + architecture + RGPD + tests + config
+│   └── images/
+│       ├── erd.png                    ← Diagramme ERD (phpMyAdmin Designer)
+│       ├── architecture-cyna.png      ← Schéma d'architecture global (Draw.io)
+│       └── grafana-dashboard.png      ← Capture du dashboard monitoring Grafana
+│
+├── guide-installation/
+│   └── guide_installation.md          ← Guide d'installation complet (12 sections)
+│
+├── monitoring/
+│   ├── prometheus.yml                 ← Configuration Prometheus (scrape CYNA 30s)
+│   └── grafana-dashboard.json         ← Export JSON du dashboard Grafana
+│
+├── .github/workflows/ci.yml           ← Pipeline CI/CD GitHub Actions (PHPUnit + audit)
+├── Dockerfile                         ← Image PHP 8.2 Apache (déploiement production)
+├── docker-compose.yml                 ← Stack Docker : app PHP + MySQL 8.0 + healthcheck
+├── composer.json                      ← Dépendances PHP (Stripe SDK, PHPMailer, Prometheus)
+├── phpunit.xml                        ← Configuration PHPUnit 11 (29 tests)
+├── .htaccess                          ← Réécriture URL Apache + protection répertoires
+├── .env.example                       ← Template variables d'environnement (sans secrets)
+└── README.md                          ← Présentation projet + instructions rapides
+```
+
+### Index des documents produits
 
 | Document | Format | Localisation GIT | Rédacteur |
 |---|---|---|---|
+| **DAT BC3 — Document d'Architecture Technique (DOCX)** | Word source | `/docs/DAT_BC3_FINAL.docx` | Omar AKAKBA |
+| **DAT BC3 — Document d'Architecture Technique (PDF)** | PDF | `/docs/DAT_BC3_CYNA.pdf` | Omar AKAKBA |
+| **Collection Postman API** | JSON (v2.1) | `/docs/postman_collection.json` | Omar AKAKBA |
+| Documentation API (HTML) | HTML | `/docs/api_documentation.html` | Omar AKAKBA |
+| Documentation API (PDF) | PDF | `/docs/api_documentation.pdf` | Omar AKAKBA |
+| **Guide d'installation (PDF)** | PDF | `/docs/guide_installation.pdf` | Omar AKAKBA |
+| Guide d'installation (Markdown) | Markdown | `/guide-installation/guide_installation.md` | Omar AKAKBA |
+| Politique RGPD | HTML + PDF | `/docs/politique_rgpd.pdf` | Omar AKAKBA |
+| Rapport tests PHPUnit | HTML + PDF | `/docs/rapport_tests.pdf` | Omar AKAKBA |
+| **DCT — Documents complémentaires (ZIP)** | ZIP | `/docs/DCT_documents_complementaires.zip` | Omar AKAKBA |
 | README principal | Markdown | `/README.md` | Omar AKAKBA |
-| DAT BC3 (ce document) | Markdown + PDF | `/docs/DAT.md` | Omar AKAKBA |
-| Guide d'installation | Markdown | `/guide-installation/guide_installation.md` | Omar AKAKBA |
-| Schéma architecture | Draw.io + PNG | `/docs/architecture-cyna.drawio` + `/docs/images/` | Omar AKAKBA |
+| Schéma architecture | Draw.io + PNG | `/docs/architecture-cyna.drawio` + `/docs/images/` | Omar AKAKBA / Elyes JAFFEL |
 | ERD base de données | PNG (phpMyAdmin) | `/docs/images/erd.png` | Omar AKAKBA |
 | Schéma SQL complet | SQL | `/sql/schema.sql` | Omar AKAKBA |
 | Données de démonstration | SQL | `/sql/seed.sql` | Omar AKAKBA |
@@ -590,5 +712,5 @@ L'intégration de Docker, GitHub Actions et Prometheus/Grafana démontre qu'une 
 | RGPD : données identifiées + mesures | Tableau P4.3 complété | ✅ | |
 | Documentation listée avec localisations | Index P6.1 complet | ✅ | |
 | Repo GIT : commits réguliers | Historique depuis avril 2026 | ✅ | |
-| Relecture orthographe (min. 2 membres) | | ☐ | À faire |
-| PDF final généré et vérifié | | ☐ | À faire |
+| Relecture orthographe (min. 2 membres) | Relecture effectuée (Omar AKAKBA) | ✅ | |
+| PDF final généré et vérifié | `docs/DAT_BC3_CYNA.pdf` + `docs/DAT_BC3_FINAL.docx` | ✅ | Juillet 2026 |
