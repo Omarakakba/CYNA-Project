@@ -1,6 +1,6 @@
 # Fichiers de configuration sensibles (ne jamais versionner)
 .env
-includes/config.php
+# includes/config.php est versionné — ne contient pas de credentials (lus depuis .env)
 
 # Dépendances (recréées avec : composer install)
 vendor/
