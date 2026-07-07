@@ -198,22 +198,5 @@ CREATE TABLE `slide` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ============================================================
--- DONNÉES INITIALES — Catégories
--- ============================================================
-INSERT IGNORE INTO `category` (`name`, `slug`, `description`) VALUES
-('EDR',         'edr', 'Endpoint Detection & Response — protection des postes de travail'),
-('SOC Managé',  'soc', 'Security Operations Center — surveillance 24/7 par des experts'),
-('VPN',         'vpn', 'VPN entreprise chiffré de bout en bout avec gestion centralisée');
-
--- ============================================================
--- DONNÉES INITIALES — Compte administrateur
--- Mot de passe par défaut : Admin@cyna2024  (à changer immédiatement)
--- Hash généré avec : password_hash('Admin@cyna2024', PASSWORD_BCRYPT)
--- ============================================================
-INSERT IGNORE INTO `user` (`email`, `password`, `role`, `cgu_accepted_at`, `cgu_version`) VALUES
-('admin@cyna-security.fr',
- '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
- 'admin',
- NOW(),
- '1.0');
+-- Les données initiales (catégories, admin, produits) sont dans sql/seed.sql
+-- schema.sql définit uniquement la structure — jamais de données.
