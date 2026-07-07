@@ -1,6 +1,7 @@
 -- ============================================================
 -- CYNA — Données de démonstration
 -- Importer APRÈS schema.sql
+-- Contient : catégories, utilisateurs (admin + clients), produits
 -- ============================================================
 
 USE cyna_db;
