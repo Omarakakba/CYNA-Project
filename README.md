@@ -93,7 +93,7 @@ cyna/
 │   └── messages.php           ← Messagerie de contact
 │
 ├── includes/
-│   ├── config.php             ← Connexion BDD PDO (hors git)
+│   ├── config.php             ← Connexion BDD PDO + variables d'env
 │   ├── auth.php               ← Authentification, sessions, remember-me
 │   ├── security.php           ← CSRF, escape, rate limiting
 │   ├── mail.php               ← Envoi d'e-mails PHPMailer
@@ -212,6 +212,19 @@ Tables : `user`, `category`, `product`, `order`, `order_item`, `payment`, `addre
 
 ---
 
+## Tests & CI/CD
+
+Le pipeline GitHub Actions se déclenche à chaque push sur `main` :
+- PHP 8.2 + MySQL 8.0 (service Docker)
+- 29 tests PHPUnit — `AuthTest`, `DatabaseTest`, `SecurityTest`
+- `composer audit` — vérification des vulnérabilités
+
+```bash
+vendor/bin/phpunit --no-coverage
+```
+
+---
+
 ## Documentation technique
 
-Le Document d'Architecture Technique complet est disponible dans [docs/DAT.md](docs/DAT.md).
+Le Document d'Architecture Technique complet est disponible dans [docs/DAT_BC3_CYNA.pdf](docs/DAT_BC3_CYNA.pdf).
