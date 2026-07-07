@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Bootstrap PHPUnit — CYNA
+ * Les variables CI (DB_HOST, DB_PORT, etc.) ont priorité sur les défauts locaux.
+ */
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Variables d'environnement pour les tests (override par CI si présentes)
