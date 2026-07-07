@@ -1,8 +1,9 @@
 -- ============================================================
 -- CYNA — Schéma de base de données (version complète)
--- Auteur  : Omar Akakba
+-- Auteur  : Omar Akakba, Elyes Jaffel
 -- Projet  : Plateforme SaaS Cybersécurité
 -- Moteur  : MySQL 8.0 / InnoDB — utf8mb4_unicode_ci
+-- Version : 1.1
 -- ============================================================
 
 -- Créer et sélectionner la base
